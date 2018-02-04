@@ -12,28 +12,38 @@
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="css/style.css">
 
+  <script src="https://hosted.curbside.com/1.0/curbside.dependencies.js"></script>
+  <script src="https://hosted.curbside.com/1.0/curbside.sdk.js"></script>
+
   <script>
     // Page init event
+
+    Curbside.setAppId("mess");
+    Curbside.setUsageToken("7af93cd0e84a2c1a885dbd7ca0cc2fb68bc1737959fe88b618ed2de7b6ce4e98");
+    Curbside.setTrackingIdentifier("something");
+
+    var token = "1" + Math.random();
+    var siteId = "mess_67974";
+
     document.addEventListener('init', function(event) {
       var page = event.target;
 
       if (page.matches('#first-page')) {
-
         page.querySelector('#push-button').onclick = function() {
           document.querySelector('#navigator').pushPage('page2.html');
+          console.log('inside first page');
+          Curbside.startTripToSiteWithIdentifier({ siteID: siteId, trackToken: token });
         };
 
       } else if (page.matches('#second-page')) {
-
         page.querySelector('#pop-button').onclick = function() {
           document.querySelector('#navigator').popPage();
+          Curbside.cancelTripToSiteWithIdentifier({ siteID: siteId, trackToken: token });
         };
 
       }
     });
   </script>
-  <script src="https://hosted.curbside.com/1.0/curbside.dependencies.js"></script>
-  <script src="https://hosted.curbside.com/1.0/curbside.sdk.js"></script>
 </head>
 <body>
   <ons-navigator id="navigator" page="page1.html"></ons-navigator>
